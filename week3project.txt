@@ -1,0 +1,214 @@
+CREATE TABLE books (
+    book_id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    author TEXT NOT NULL,
+    published_year INTEGER
+);
+
+
+CREATE TABLE borrowers (
+    borrower_id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    book_id INTEGER,
+    borrow_date DATE,
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+);
+
+
+INSERT INTO books (title, author, published_year) VALUES
+('The Catcher in the Rye', 'J.D. Salinger', 1951),
+('To Kill a Mockingbird', 'Harper Lee', 1960),
+('1984', 'George Orwell', 1949),
+('Pride and Prejudice', 'Jane Austen', 1813),
+('The Great Gatsby', 'F. Scott Fitzgerald', 1925),
+('Moby-Dick', 'Herman Melville', 1851),
+('War and Peace', 'Leo Tolstoy', 1869),
+('The Odyssey', 'Homer', -800),
+('Crime and Punishment', 'Fyodor Dostoevsky', 1866),
+('Brave New World', 'Aldous Huxley', 1932);
+
+
+INSERT INTO borrowers (name, book_id, borrow_date) VALUES
+('Alice', 1, '2024-01-10'),
+('Bob', 2, '2024-01-12'),
+('Charlie', 3, '2024-01-15'),
+('David', 4, '2024-01-18'),
+('Eve', 5, '2024-01-20');
+
+
+SELECT books.title, books.author, borrowers.borrow_date
+FROM books
+JOIN borrowers ON books.book_id = borrowers.book_id
+WHERE borrowers.name = 'Alice';
+"text"  			"author"	 "date"
+"The Catcher in the Rye"	"J.D. Salinger"	"2024-01-10"
+
+
+
+SELECT title, author, published_year
+FROM books
+WHERE published_year < 1950;
+
+"title"			"author" 		"publiished_year"
+"1984"			"George Orwell"		1949
+"Pride and Prejudice"	"Jane Austen"		1813
+"The Great Gatsby"	"F. Scott Fitzgerald"	1925
+"Moby-Dick"		"Herman Melville"	1851
+"War and Peace"		"Leo Tolstoy"		1869
+"The Odyssey"		"Homer"			-800
+"Crime and Punishment"	"Fyodor Dostoevsky"	1866
+"Brave New World"	"Aldous Huxley"		1932
+
+
+
+SELECT books.title, books.author
+FROM books
+LEFT JOIN borrowers ON books.book_id = borrowers.book_id
+WHERE borrowers.book_id IS NULL;
+
+"title"			"author"
+"Brave New World"	"Aldous Huxley"
+"The Odyssey"		"Homer"
+"Moby-Dick"		"Herman Melville"
+"Crime and Punishment"	"Fyodor Dostoevsky"
+"War and Peace"		"Leo Tolstoy"
+
+
+SELECT books.title, borrowers.borrow_date
+FROM books
+JOIN borrowers ON books.book_id = borrowers.book_id
+ORDER BY borrowers.borrow_date DESC
+LIMIT 1;
+
+"title"			"borrow_date"
+"The Great Gatsby"	"2024-01-20"
+
+
+SELECT books.title, COUNT(borrowers.borrower_id) AS borrow_count
+FROM books
+LEFT JOIN borrowers ON books.book_id = borrowers.book_id
+GROUP BY books.book_id;
+
+	
+"title"			"borrow_count"
+"Pride and Prejudice"		1
+"Brave New World"		0
+"Moby-Dick"			0
+"To Kill a Mockingbird"		1
+"Crime and Punishment"		0
+"1984"				1
+"The Great Gatsby"		1
+"War and Peace"			0
+"The Catcher in the Rye"	1
+"The Odyssey"			0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

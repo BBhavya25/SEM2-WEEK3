@@ -1,0 +1,316 @@
+1)
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    age INTEGER,
+    position TEXT
+);
+
+2)
+CREATE TABLE departments (
+    department_id SERIAL PRIMARY KEY,
+    department_name TEXT UNIQUE
+);
+
+
+3)
+INSERT INTO employees (id, name, age, position) VALUES
+(1, 'Alice', 30, 'Manager'),
+(2, 'Bob', 25, 'Analyst'),
+(3, 'Charlie', 28, 'Developer');
+
+
+4)
+INSERT INTO departments (department_id, department_name) VALUES
+(1, 'HR'),
+(2, 'Engineering'),
+(3, 'Finance');
+
+
+5)
+SELECT * FROM employees
+"id"	"name"	  "age"	"position"
+1	"Alice"	   30	"Manager"
+2	"Bob"	   25	"Analyst"
+3	"Charlie"  28	"Developer"
+
+6)
+SELECT name, position FROM employees;
+"name"	       "position"
+"Alice"        "Manager"
+"Bob"	       "Analyst"
+"Charlie"      "Developer"
+
+
+7)
+SELECT * FROM employees WHERE age > 27;
+
+"id"	"name"	"age"	"position"
+1	"Alice"	 30	"Manager"
+3	"Charlie" 28	"Developer"
+
+8)
+
+SELECT * FROM employees WHERE position = 'Developer';
+"id"	"name"	"age"	"position"
+3	"Charlie"	28	"Developer"
+
+9)
+SELECT * FROM employees
+WHERE name LIKE 'A%';
+
+"id"	"name"	"age"	"position"
+1	"Alice"	30	"Manager"
+
+
+10)
+
+SELECT * FROM employees
+WHERE age BETWEEN 25 AND 30;
+
+"id"	"name"	"age"	"position"
+1	"Alice"	30	"Manager"
+2	"Bob"	25	"Analyst"
+3	"Charlie"	28	"Developer"
+
+11)
+SELECT * FROM employees ORDER BY age ASC;
+
+"id"	"name"		"age"	"position"
+2	"Bob"	 	25	"Analyst"
+3	"Charlie"	28	"Developer"
+1	"Alice"		30	"Manager"
+
+12)
+SELECT * FROM employees ORDER BY name DESC;
+
+"id"	"name"		"age"	"position"
+3	"Charlie"	28	"Developer"
+2	"Bob"		25	"Analyst"
+1	"Alice"		30	"Manager"
+
+
+13)
+SELECT COUNT(*) AS total_employees FROM employees;
+
+"total_employees"
+3
+
+14)
+SELECT AVG(age) AS average_age FROM employees;
+
+"average_age"
+27.6666666666666667
+
+15)
+SELECT MAX(age) AS maximum_age FROM employees;
+
+"maximum_age"
+30
+
+16)
+SELECT SUM(age) AS total_age FROM employees;
+
+"total_age"
+83
+
+17)
+SELECT position, COUNT(*) AS employee_count
+FROM employees GROUP BY position;
+
+"position"	"employee_count"
+"Manager"	1
+"Analyst"	1
+"Developer"	1
+
+18)
+SELECT position, AVG(age) AS average_age
+FROM employees
+GROUP BY position;
+
+"position"	"average_age"
+"Manager"	30.0000000000000000
+"Analyst"	25.0000000000000000
+"Developer"	28.0000000000000000
+
+19)
+UPDATE employees
+SET age = 32
+WHERE name = 'Alice';
+
+20)
+
+UPDATE employees
+SET position = 'Senior Analyst'
+WHERE name = 'Bob';
+
+21)
+
+DELETE FROM employees
+WHERE name = 'Charlie';
+
+22)
+
+DELETE FROM employees
+WHERE age > 35;
+
+23)
+CREATE TABLE projects (
+    project_id SERIAL PRIMARY KEY,
+    project_name TEXT,
+    department_id INTEGER REFERENCES departments(department_id)
+);
+
+
+24)
+INSERT INTO projects (project_id, project_name, department_id) VALUES
+(1, 'Project Alpha', 1),
+(2, 'Project Beta', 2),
+(3, 'Project Gamma', 3);
+
+
+25)
+SELECT projects.project_id, projects.project_name, departments.department_name
+FROM projects
+INNER JOIN departments
+ON projects.department_id = departments.department_id;
+
+"project_id"	"project_name"	"department_name"
+1		"Project Alpha"	"HR"
+2		"Project Beta"	"Engineering"
+3		"Project Gamma"	"Finance"
+
+26)
+SELECT departments.department_name, projects.project_name
+FROM departments
+LEFT JOIN projects
+ON departments.department_id = projects.department_id;
+
+"department_name"	"project_name"
+"HR"			"Project Alpha"
+"Engineering"		"Project Beta"
+"Finance"		"Project Gamma"
+
+27)
+ALTER TABLE employees
+ADD CONSTRAINT check_age CHECK (age > 18);
+
+
+28)
+ALTER TABLE departments
+ALTER COLUMN department_name SET NOT NULL;
+
+
+29)
+SELECT name
+FROM employees
+WHERE department_id = (
+    SELECT department_id
+    FROM departments
+    WHERE department_name = 'Engineering'
+);
+
+30)
+CREATE VIEW employee_summary AS
+SELECT employees.name, employees.position, departments.department_name
+FROM employees
+INNER JOIN departments
+ON employees.department_id = departments.department_id;
+
+SELECT * FROM employee_summary;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
